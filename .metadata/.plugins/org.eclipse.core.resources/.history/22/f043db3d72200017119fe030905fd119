@@ -126,8 +126,7 @@ public class DataStructure implements DT {
 			Container tempmin=min_x;
 			Container tempmaxparallel=tempmax.getParallel();
             while(tempmax.getPrev()!=null&&tempmax.getData().getX()>max){
-				size--;
-            	tempmax=tempmax.getPrev();
+				tempmax=tempmax.getPrev();
 				tempmax.SetNext(null);
 				if(tempmaxparallel.getNext()!=null){
 					tempmaxparallel.getNext().SetPrev(tempmaxparallel.getPrev());
@@ -147,7 +146,7 @@ public class DataStructure implements DT {
             	first_y=null;
             }
             while(tempmin.getNext()!=null&&tempmin.getData().getX()<min){
-            	//אתה באמצע החלק של המינימום בציר האיקס
+            	//אתה באמצע החלק של המינימום בציר הס
             }
 			
 		}else{

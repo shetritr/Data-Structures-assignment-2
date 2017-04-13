@@ -6,53 +6,41 @@ public class DataStructure implements DT {
 	{
 		first_x=null;
 		first_y=null;
-		max_x=null;
-		min_x=null;
-		max_y=null;
-		min_y=null;
+		max_x=Integer.MIN_VALUE;
+		min_x=Integer.MAX_VALUE;
+		max_y=Integer.MIN_VALUE;
+		min_y=Integer.MAX_VALUE;
 		size=0;
 	}
 
 	@Override
 	public void addPoint(Point point) {//add point to the two lists
 		Container temp=first_x;//to x list
-		Container tempParallel;
 		size++;
-		if(temp==null||temp.getData().getX()>point.getX()){
-			first_x=new Container(point, first_x, null);
-			tempParallel=first_x;
+		if(temp==null){
+			first_x=new Container(point);
 		}
-		else{ while(temp.getNext()!=null&&temp.getNext().getData().getX()<point.getX()){
+		else while(temp.getNext()!=null&&temp.getNext().getData().getX()<point.getX()){
 			temp=temp.getNext();
 		}
 		temp.SetNext(new Container(point, temp.getNext(), temp));
-		tempParallel=temp.getNext();
-		temp=temp.getNext();
-		}
-		if(temp.getNext()==null){//defines min and max
-			max_x=temp;
-		}else if(temp.getPrev()==null)
-			min_x=temp;
+		if(point.getX()>max_x){//defines min and max
+			max_x=point.getX();
+		}else if(point.getX()<min_x)
+			min_x=point.getX();
 		
 		temp=first_y;//to y list
-		if(temp==null||temp.getNext().getData().getY()>point.getY()){
-			first_y=new Container(point, first_y,null);
-			first_y.SetParallel(tempParallel);
-			tempParallel.SetParallel(first_y);
+		if(temp==null){
+			first_y=new Container(point);
 		}
-		else{ 
-			while(temp.getNext()!=null&&temp.getNext().getData().getY()<point.getY()){
+		else while(temp.getNext()!=null&&temp.getNext().getData().getY()<point.getY()){
 			temp=temp.getNext();
-			}
-		temp.SetNext(new Container(point, temp.getNext(), temp));
-		temp.SetParallel(tempParallel);
-		tempParallel.SetParallel(temp);
-		temp=temp.getNext();
 		}
-		if(temp.getNext()==null){//defines min and max
-			max_y=temp;
-		}else if(temp.getPrev()==null)
-			min_y=temp;
+		temp.SetNext(new Container(point, temp.getNext(), temp));
+		if(point.getY()>max_y){//defines min and max
+			max_y=point.getY();
+		}else if(point.getY()<min_y)
+			min_y=point.getY();
 			}
 
 	@Override
@@ -115,44 +103,12 @@ public class DataStructure implements DT {
 
 	@Override
 	public double getDensity() {
-		return size/((max_x.getData().getX()-min_x.getData().getX())*
-				(max_y.getData().getY()-min_y.getData().getY()));
+		return size/((max_x-min_x)*(max_y-min_y));
 	}
 
 	@Override
 	public void narrowRange(int min, int max, Boolean axis) {
-		if(axis&max_x!=null){
-			Container tempmax=max_x;
-			Container tempmin=min_x;
-			Container tempmaxparallel=tempmax.getParallel();
-            while(tempmax.getPrev()!=null&&tempmax.getData().getX()>max){
-				size--;
-            	tempmax=tempmax.getPrev();
-				tempmax.SetNext(null);
-				if(tempmaxparallel.getNext()!=null){
-					tempmaxparallel.getNext().SetPrev(tempmaxparallel.getPrev());
-				}else{
-					max_y=tempmaxparallel.getPrev();
-				}
-				if(tempmaxparallel.getPrev()!=null){
-					tempmaxparallel.SetNext(tempmaxparallel.getNext());
-				}else{
-					min_y=tempmaxparallel.getNext();
-				}
-				tempmaxparallel=tempmax.getParallel();
-			}
-            max_x=tempmax;
-            if(tempmax.getPrev()==null&tempmax.getData().getX()>max){
-            	first_x=null;
-            	first_y=null;
-            }
-            while(tempmin.getNext()!=null&&tempmin.getData().getX()<min){
-            	//אתה באמצע החלק של המינימום בציר האיקס
-            }
-			
-		}else{
-			
-		}
+		// TODO Auto-generated method stub
 		
 	}
 
@@ -181,11 +137,11 @@ public class DataStructure implements DT {
 		return null;
 	}
 	private Container first_x;
-	private Container max_x;
-	private Container min_x;
+	private int max_x;
+	private int min_x;
 	private Container first_y;
-	private Container max_y;
-	private Container min_y;
+	private int max_y;
+	private int min_y;
 	private int size;
 	private int Count(boolean axis,int max,int min){//count the number of points between the min & max
 		int count=0;
