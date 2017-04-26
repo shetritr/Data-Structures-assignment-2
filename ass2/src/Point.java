@@ -2,7 +2,6 @@
 //////////////// DON'T CHANGE THIS FILE ////////////////
 
 public class Point {
-
 	public Point(int x, int y, String name) {
 		this.x = x;
 		this.y = y;
