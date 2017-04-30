@@ -1,5 +1,0 @@
-import java.util.Comparator;
-
-public class compery implements Comparator<T> {
-
-}

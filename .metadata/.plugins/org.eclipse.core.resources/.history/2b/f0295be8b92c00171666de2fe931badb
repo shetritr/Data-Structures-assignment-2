@@ -1,0 +1,59 @@
+
+public class Q1 {
+
+	public static void main(String[] args) {
+		int[] arr = { 1, 3, 4, 6, 7, 8, 9, 11, 12 };
+		print(arr);
+		rsplit(arr);
+		print(arr);
+	}
+
+	public static void split(int[] arr) {
+		int oddIdx = next(arr, 0, true), evenIdx = next(arr, 0, false);
+		while (oddIdx < evenIdx)
+			oddIdx = next(arr, oddIdx + 1, true);
+		while (oddIdx < arr.length && evenIdx < arr.length) {
+			rotate(arr, evenIdx, oddIdx);
+			// 1
+			oddIdx = next(arr, oddIdx +1, true);
+			evenIdx = evenIdx + 1;
+			// 
+		}
+	}
+
+	// 2
+	public static void rsplit(int[] arr) {
+		rsplit(arr, next(arr, 0, true), next(arr, 0, false));
+	}
+
+	// 2
+	private static void rsplit(int[] arr, int oIdx, int eIdx) {
+		if (oIdx != arr.length && eIdx != arr.length) {
+			if (oIdx < eIdx)
+				rsplit(arr, next(arr, oIdx + 1, true), eIdx);
+			else {
+				rotate(arr, eIdx, oIdx);
+				rsplit(arr, next(arr, oIdx + 1, true), eIdx + 1);
+			}
+		}
+	}
+
+	private static int next(int[] arr, int idx, boolean isOdd) {
+		while (idx < arr.length && arr[idx] % 2 == 0 == isOdd)
+			idx = idx + 1;
+		return idx;
+	}
+
+	private static void rotate(int[] arr, int left, int right) {
+		int t = arr[right];
+		for (int i = right; i > left; i = i - 1)
+			arr[i] = arr[i - 1];
+		arr[left] = t;
+	}
+
+	private static void print(int[] arr) {
+		for (int i = 0; i < arr.length; ++i)
+			System.out.print("\t" + arr[i]);
+		System.out.println();
+	}
+}
